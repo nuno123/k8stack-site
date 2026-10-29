@@ -14,9 +14,9 @@ export function CloudEcosystem() {
   ];
 
   return (
-    <section className="py-14 border-y border-white/[0.06] bg-[#090a0b]/60">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-7">
+    <section className="py-16 md:py-20 border-y border-white/[0.06] bg-[#090a0b]/60">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <div className="text-center mb-8">
           <p className="text-xs font-mono uppercase tracking-widest text-white/45">
             Bring your own clusters &amp; local AI runtimes
           </p>
@@ -26,13 +26,13 @@ export function CloudEcosystem() {
           {providers.map((p) => (
             <div
               key={p.name}
-              className="flex flex-col items-center justify-center p-3.5 rounded-xl border border-white/[0.07] bg-surface hover:border-white/[0.14] transition-colors text-center"
+              className="flex flex-col items-center justify-center p-4 rounded-xl border border-white/[0.07] bg-surface hover:border-white/[0.14] transition-colors text-center"
             >
               <div className="flex items-center gap-1.5 font-medium text-xs text-white">
                 <Cloud className="h-3.5 w-3.5 text-white/40" />
                 <span>{p.name}</span>
               </div>
-              <div className="mt-1 text-[10px] font-mono text-white/40 truncate max-w-full">
+              <div className="mt-1.5 text-[10px] font-mono text-white/40 truncate max-w-full">
                 {p.badge}
               </div>
             </div>

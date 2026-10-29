@@ -1,32 +1,21 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Shield } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
+import { K8StackLogo } from "@/components/brand/K8StackLogo";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export function Footer() {
   return (
     <footer className="border-t border-white/[0.06] bg-[#070809] py-14 text-white/50 text-[13px]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1200px] px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Brand Info */}
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#111214] border border-white/[0.1]">
-                <Image
-                  src="/icon.svg"
-                  alt="K8Stack Logo"
-                  width={20}
-                  height={20}
-                  className="h-4.5 w-4.5 object-contain"
-                />
-              </div>
-              <span className="text-[15px] font-semibold text-white tracking-[-0.02em] font-mono">
-                K8<span className="text-[#326ce5]">Stack</span>
-              </span>
+            <Link href="/" className="flex items-center">
+              <K8StackLogo size={22} variant="full" />
             </Link>
             <p className="mt-3 text-xs text-white/50 leading-relaxed">
               The sovereign Kubernetes desktop control plane engineered for Platform and Site Reliability Engineers.
@@ -50,7 +39,7 @@ export function Footer() {
               </li>
               <li>
                 <a href="#features" className="text-white/50 hover:text-white transition-colors">
-                  Topology Canvas
+                  Topology Visualizer
                 </a>
               </li>
               <li>
@@ -60,7 +49,7 @@ export function Footer() {
               </li>
               <li>
                 <a href="#features" className="text-white/50 hover:text-white transition-colors">
-                  PTY Terminal Studio
+                  Security Center
                 </a>
               </li>
             </ul>
@@ -115,7 +104,7 @@ export function Footer() {
                   href={SITE_CONFIG.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/50 hover:text-white transition-colors flex items-center gap-1"
+                  className="text-white/50 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <GithubIcon className="h-3.5 w-3.5" />
                   <span>Desktop App Repo</span>
@@ -127,7 +116,7 @@ export function Footer() {
                   href={SITE_CONFIG.siteRepoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/50 hover:text-white transition-colors flex items-center gap-1"
+                  className="text-white/50 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <GithubIcon className="h-3.5 w-3.5" />
                   <span>Site Source Code</span>

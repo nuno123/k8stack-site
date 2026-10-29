@@ -30,11 +30,11 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-x-clip pt-28 md:pt-36 pb-12 lg:pb-20 text-center">
-      {/* Background glow matching onorca.dev subtle lighting */}
+    <section className="relative overflow-x-clip pt-28 md:pt-36 pb-16 text-center">
+      {/* Background ambient lighting */}
       <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[450px] w-[750px] rounded-full bg-gradient-to-b from-[#326ce5]/15 via-white/[0.03] to-transparent blur-[140px] opacity-60" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+      <div className="mx-auto max-w-[1200px] px-6 flex flex-col items-center">
         {/* Release Pill Badge */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1 text-[13px] text-white/70 backdrop-blur-md">
           <span className="flex h-1.5 w-1.5 rounded-full bg-[#10b981]" />
@@ -46,19 +46,19 @@ export function Hero() {
           </span>
         </div>
 
-        {/* H1 Heading (Orca Benchmark Style) */}
-        <h1 className="max-w-5xl text-balance font-medium tracking-[-0.03em] text-white text-4xl sm:text-6xl md:text-7xl leading-[1.08]">
+        {/* H1 Heading */}
+        <h1 className="max-w-4xl text-balance font-medium tracking-[-0.03em] text-white text-4xl sm:text-6xl md:text-7xl leading-[1.08]">
           Operate 100x faster with the sovereign Kubernetes IDE
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-6 max-w-[50rem] text-balance text-white/60 text-base sm:text-lg md:text-xl leading-relaxed">
+        <p className="mt-6 max-w-[48rem] text-balance text-white/60 text-base sm:text-lg md:text-xl leading-relaxed">
           Triage incidents in seconds with zero-leak local AI, explore interactive topologies, stream multi-pod telemetry, and manage multi-cloud clusters directly from your workstation.
         </p>
 
-        {/* Main CTA & CLI Row (Orca Style) */}
+        {/* Action Row */}
         <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xl">
-          {/* Primary High-Contrast White Download Button */}
+          {/* Primary White Download Button */}
           <div className="relative w-full sm:w-auto">
             <div className="inline-flex h-12 w-full sm:w-auto items-center justify-between rounded-md bg-white px-5 text-[15px] font-semibold text-black transition hover:bg-white/90 shadow-sm cursor-pointer">
               <a

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, X, Shield, Lock } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 export function ArchitectureSection() {
   const comparison = [
@@ -56,9 +56,9 @@ export function ArchitectureSection() {
   ];
 
   return (
-    <section id="sovereignty" className="py-16 lg:py-24 border-t border-white/[0.06] relative bg-[#090a0b]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mb-14">
+    <section id="sovereignty" className="py-16 md:py-20 border-t border-white/[0.06] relative bg-[#090a0b]">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <div className="max-w-3xl mb-12">
           <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white text-balance">
             Built for sovereignty, not retrofitted
           </h2>
@@ -68,7 +68,7 @@ export function ArchitectureSection() {
         </div>
 
         {/* Comparison Diagram */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
           {/* Traditional SaaS Flow */}
           <div className="rounded-xl border border-white/[0.07] bg-surface p-6 text-xs font-mono">
             <div className="flex items-center justify-between pb-3 border-b border-white/[0.06] text-rose-400">

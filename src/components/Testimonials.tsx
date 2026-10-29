@@ -34,8 +34,8 @@ export function Testimonials() {
   ];
 
   return (
-    <section className="py-16 lg:py-24 border-t border-white/[0.06] bg-[#090a0b]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="py-16 md:py-20 border-t border-white/[0.06] bg-[#090a0b]">
+      <div className="mx-auto max-w-[1200px] px-6">
         <div className="max-w-3xl mb-12">
           <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white text-balance">
             Built by engineers who operate Kubernetes

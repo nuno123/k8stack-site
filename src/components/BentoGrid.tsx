@@ -4,31 +4,25 @@ import React from "react";
 import {
   Network,
   Bot,
-  Activity,
-  KeyRound,
-  Terminal,
-  ShieldCheck,
-  Cpu,
+  ShieldAlert,
   Layers,
-  Sparkles,
-  Zap,
-  ArrowRight,
-  Database,
-  Lock,
-  GitBranch,
+  Activity,
+  Terminal,
+  KeyRound,
+  ShieldCheck,
   Split,
-  FileCode,
+  Boxes,
+  Lock,
   Globe,
-  Radio,
 } from "lucide-react";
 
 export function BentoGrid() {
   const features = [
     {
-      title: "Real-Time Workload Topology",
-      description: "Render complex namespace dependencies, Ingress routes, and multi-container Pods at 60 FPS with zero lag.",
+      title: "Real-Time Topology Visualizer",
+      description: "Render complex namespace dependencies, Ingress routes, StatefulSets, and Pods with live relationship mapping.",
       icon: Network,
-      tag: "Topology",
+      tag: "Visualizer",
       color: "text-[#326ce5]",
     },
     {
@@ -39,18 +33,32 @@ export function BentoGrid() {
       color: "text-emerald-400",
     },
     {
-      title: "CrashLoop & OOM Triage",
-      description: "Instant detection of exit code 137 (OOMKilled) and 139 (SegFault) with automated resource limit remediation diffs.",
-      icon: Activity,
-      tag: "Incident RCA",
+      title: "Security Center (CIS & PSS)",
+      description: "Automated Pod Security Standards audit (Baseline & Restricted), privileged container alerts, and UID 0 detection.",
+      icon: ShieldAlert,
+      tag: "DevSecOps",
       color: "text-rose-400",
     },
     {
-      title: "PTY Terminal Multiplexer",
-      description: "Native xterm.js terminal with multi-pod streaming logs, raw SPDY shell exec sessions, and customizable baud rates.",
+      title: "Workload & Pod RCA",
+      description: "Instant detection of exit codes (137 OOMKilled, 255, 139), container restarts history, and automated YAML limit diffs.",
+      icon: Layers,
+      tag: "Incident RCA",
+      color: "text-amber-400",
+    },
+    {
+      title: "Cluster Telemetry & Saturation",
+      description: "Deep CPU headroom, memory pressure, allocatable commitments, and namespace resource saturation progress bars.",
+      icon: Activity,
+      tag: "Observability",
+      color: "text-sky-400",
+    },
+    {
+      title: "Terminal Studio & Dock",
+      description: "Integrated xterm.js terminal dock with multi-pod streaming logs, raw SPDY shell exec sessions, and customizable baud rates.",
       icon: Terminal,
       tag: "Terminal",
-      color: "text-amber-400",
+      color: "text-emerald-400",
     },
     {
       title: "Direct Workstation mTLS",
@@ -60,38 +68,24 @@ export function BentoGrid() {
       color: "text-emerald-400",
     },
     {
-      title: "Dynamic Port-Forwarding",
-      description: "Manage background tunnels, service endpoints, and database forwarders with one-click toggles and port conflict detection.",
-      icon: Radio,
-      tag: "Networking",
-      color: "text-sky-400",
-    },
-    {
-      title: "Enterprise Kubeconfig & Cloud IAM",
-      description: "Direct authentication via Azure CLI (az aks get-credentials), AWS IAM, and Google Cloud SDK with zero token caching.",
-      icon: KeyRound,
-      tag: "Cloud IAM",
+      title: "Multi-Context Manager",
+      description: "Seamlessly switch between multi-cloud environments (Azure AKS, AWS EKS, GKE, OKE, Talos, k3s) without re-authenticating.",
+      icon: Split,
+      tag: "Multi-Cloud",
       color: "text-indigo-400",
     },
     {
-      title: "Live Prometheus Metrics",
-      description: "Day-Zero observability with high-density sparklines, CPU/RAM saturation gauges, and node capacity tracking.",
-      icon: Zap,
-      tag: "Metrics",
-      color: "text-amber-400",
-    },
-    {
-      title: "Monaco YAML Diff Studio",
-      description: "Full Monaco Editor integration with Kubernetes schema auto-completion, live diffing, and declarative apply.",
-      icon: FileCode,
-      tag: "Editor",
+      title: "Native Kubeconfig & Cloud IAM",
+      description: "Direct authentication via Azure CLI (az aks get-credentials), AWS IAM, and Google Cloud SDK with zero token caching.",
+      icon: KeyRound,
+      tag: "Cloud IAM",
       color: "text-purple-400",
     },
     {
-      title: "Multi-Cluster Switching",
-      description: "Seamlessly jump across multi-cloud environments (AKS, EKS, GKE, OKE, Talos, k3s) without re-authenticating.",
-      icon: Split,
-      tag: "Multi-Cloud",
+      title: "Helm Hub & CRD Engine",
+      description: "Inspect CustomResourceDefinitions, explore installed Helm releases, and validate manifests against cluster schemas.",
+      icon: Boxes,
+      tag: "Packages",
       color: "text-blue-400",
     },
     {
@@ -111,8 +105,8 @@ export function BentoGrid() {
   ];
 
   return (
-    <section id="features" className="py-16 lg:py-24 relative border-t border-white/[0.06]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="features" className="py-16 md:py-20 relative border-t border-white/[0.06]">
+      <div className="mx-auto max-w-[1200px] px-6">
         {/* Section Header (Orca Style) */}
         <div className="max-w-3xl mb-12">
           <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white text-balance">

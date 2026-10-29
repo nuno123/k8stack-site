@@ -39,13 +39,13 @@ export function FaqSection() {
   ];
 
   return (
-    <section id="faq" className="py-16 lg:py-24 border-t border-white/[0.06] bg-[#090a0b]">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="py-16 md:py-20 border-t border-white/[0.06] bg-[#090a0b]">
+      <div className="mx-auto max-w-[1200px] px-6">
         <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white mb-10">
           Frequently asked questions
         </h2>
 
-        <div className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+        <div className="divide-y divide-white/[0.07] border-y border-white/[0.07] max-w-4xl">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (

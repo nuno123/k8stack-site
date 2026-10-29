@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Download, Copy, Check, ShieldCheck, Terminal, Hash, ChevronDown } from "lucide-react";
+import { Download, Copy, Check, ShieldCheck, Hash } from "lucide-react";
 import { SITE_CONFIG, DownloadAsset } from "@/lib/siteConfig";
 import { useDetectedPlatform } from "@/lib/osDetector";
 
@@ -16,8 +16,8 @@ export function DownloadMatrix() {
   };
 
   return (
-    <section id="downloads" className="py-20 lg:py-28 border-t border-white/[0.06] bg-[#090a0b] relative">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="downloads" className="py-16 md:py-24 border-t border-white/[0.06] bg-[#090a0b] relative">
+      <div className="mx-auto max-w-[1200px] px-6">
         {/* Orca-Style Big CTA Header */}
         <div className="max-w-3xl mx-auto text-center mb-14">
           <h2 className="text-4xl sm:text-6xl font-medium tracking-[-0.03em] text-white">
