@@ -2,47 +2,51 @@ import React from "react";
 import { StagingBanner } from "@/components/StagingBanner";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { CloudEcosystem } from "@/components/CloudEcosystem";
 import { ShowcaseFrame } from "@/components/InteractiveShowcase/ShowcaseFrame";
+import { CloudEcosystem } from "@/components/CloudEcosystem";
 import { BentoGrid } from "@/components/BentoGrid";
 import { ArchitectureSection } from "@/components/ArchitectureSection";
 import { Testimonials } from "@/components/Testimonials";
+import { FaqSection } from "@/components/FaqSection";
 import { DownloadMatrix } from "@/components/DownloadMatrix";
 import { Footer } from "@/components/Footer";
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen bg-[#08090a] text-[#ededed]">
-      {/* Privacy / Staging Banner for Opção 2 - Validação Segura */}
+    <div className="relative min-h-screen bg-[#090a0b] text-[#ededed]">
+      {/* Privacy / Staging Shield Banner */}
       <StagingBanner />
 
-      {/* Glassmorphic Navigation Header */}
+      {/* Orca-Style Fixed Blur Navbar */}
       <Header />
 
       <main>
-        {/* Hero Section with Dynamic OS Detection and CLI 1-click install */}
+        {/* Hero Section */}
         <Hero />
 
-        {/* Multi-Cloud Compatibility Strip */}
-        <CloudEcosystem />
-
-        {/* Interactive Desktop Showcase (macOS traffic lights, 4 rich tabs) */}
+        {/* Desktop Cockpit App Window (Showcase) */}
         <ShowcaseFrame />
 
-        {/* Bento Grid: 5 Core Architectural Pillars */}
+        {/* Bring your own clusters / AI runtimes */}
+        <CloudEcosystem />
+
+        {/* Sovereign, end to end. (12 Feature Grid) */}
         <BentoGrid />
 
-        {/* Sovereign Architecture & Comparison Table */}
+        {/* Built for sovereignty, not retrofitted. (Comparison) */}
         <ArchitectureSection />
 
-        {/* Community Wall of SRE */}
+        {/* Built by engineers who operate Kubernetes (Testimonials) */}
         <Testimonials />
 
-        {/* Download Matrix & Package Managers */}
+        {/* Frequently Asked Questions */}
+        <FaqSection />
+
+        {/* Get K8Stack (Download CTA & Binary Hub) */}
         <DownloadMatrix />
       </main>
 
-      {/* Institutional Footer */}
+      {/* Minimal SRE Footer */}
       <Footer />
     </div>
   );

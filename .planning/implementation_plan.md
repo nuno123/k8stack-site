@@ -87,3 +87,4 @@ src/
 | **9** | Build Validation (`npm run build`) | Static export in `out/`, 0 TypeScript errors, 0 warnings |
 | **10** | Cloudflare Pages Preview Deploy | Direct deployment to Cloudflare Pages staging URL |
 | **11** | Git Commit & Push | Push to `origin/main` on `nuno123/k8stack-site` |
+

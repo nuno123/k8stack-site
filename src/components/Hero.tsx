@@ -7,11 +7,8 @@ import {
   Copy,
   Check,
   ChevronDown,
-  ShieldCheck,
-  Cpu,
+  Monitor,
   Sparkles,
-  Command,
-  ArrowRight,
 } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 import { useDetectedPlatform } from "@/lib/osDetector";
@@ -33,62 +30,49 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24">
-      {/* Subtle radial ambient gradients (onorca style) */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] rounded-full bg-gradient-to-b from-[#326ce5]/20 via-[#10b981]/10 to-transparent blur-[120px] opacity-70" />
-      <div className="pointer-events-none absolute right-1/4 top-1/3 h-[300px] w-[400px] rounded-full bg-[#326ce5]/10 blur-[100px]" />
+    <section className="relative overflow-x-clip pt-28 md:pt-36 pb-12 lg:pb-20 text-center">
+      {/* Background glow matching onorca.dev subtle lighting */}
+      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[450px] w-[750px] rounded-full bg-gradient-to-b from-[#326ce5]/15 via-white/[0.03] to-transparent blur-[140px] opacity-60" />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
         {/* Release Pill Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-[#111315]/80 px-3.5 py-1.5 backdrop-blur-md shadow-lg transition-transform hover:scale-102">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10b981]"></span>
-          </span>
-          <span className="text-xs font-mono font-medium text-neutral-300">
-            K8Stack v{SITE_CONFIG.version} Release
-          </span>
-          <span className="text-neutral-500">•</span>
-          <span className="text-xs text-[#38bdf8] flex items-center gap-1 font-mono">
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1 text-[13px] text-white/70 backdrop-blur-md">
+          <span className="flex h-1.5 w-1.5 rounded-full bg-[#10b981]" />
+          <span>K8Stack v{SITE_CONFIG.version} is live</span>
+          <span className="text-white/30">•</span>
+          <span className="text-[#38bdf8] flex items-center gap-1 font-medium">
             <Sparkles className="h-3 w-3" />
-            Air-Gapped Local AI SRE
+            Zero-Leak Local AI SRE
           </span>
         </div>
 
-        {/* Hero Title */}
-        <h1 className="mt-7 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08]">
-          The Kubernetes Control Plane for{" "}
-          <span className="bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-            Modern Engineering Teams
-          </span>
+        {/* H1 Heading (Orca Benchmark Style) */}
+        <h1 className="max-w-5xl text-balance font-medium tracking-[-0.03em] text-white text-4xl sm:text-6xl md:text-7xl leading-[1.08]">
+          Operate 100x faster with the sovereign Kubernetes IDE
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-6 text-base sm:text-lg lg:text-xl text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-          Effortlessly visualize complex topologies, triage incidents in seconds with{" "}
-          <strong className="text-neutral-200 font-semibold">zero-leak local AI</strong>, stream live pod telemetry, and manage multi-cloud clusters from a blazingly fast desktop cockpit.
+        <p className="mt-6 max-w-[50rem] text-balance text-white/60 text-base sm:text-lg md:text-xl leading-relaxed">
+          Triage incidents in seconds with zero-leak local AI, explore interactive topologies, stream multi-pod telemetry, and manage multi-cloud clusters directly from your workstation.
         </p>
 
-        {/* CTA Section: Dynamic Download + OS Switcher */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <div className="relative inline-block text-left w-full sm:w-auto">
-            <div className="flex rounded-xl shadow-xl shadow-[#326ce5]/25 border border-[#326ce5]/50 bg-gradient-to-r from-[#326ce5] to-[#2557bd] p-[1px]">
+        {/* Main CTA & CLI Row (Orca Style) */}
+        <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xl">
+          {/* Primary High-Contrast White Download Button */}
+          <div className="relative w-full sm:w-auto">
+            <div className="inline-flex h-12 w-full sm:w-auto items-center justify-between rounded-md bg-white px-5 text-[15px] font-semibold text-black transition hover:bg-white/90 shadow-sm cursor-pointer">
               <a
                 href={detected.asset.url}
-                className="flex items-center justify-center gap-2.5 rounded-l-[11px] bg-gradient-to-b from-[#326ce5] to-[#2557bd] px-6 py-3.5 text-sm font-semibold text-white transition-all hover:brightness-110 w-full sm:w-auto"
+                className="flex items-center gap-2.5 whitespace-nowrap"
               >
                 <Download className="h-4 w-4" />
                 <span>{detected.label}</span>
-                <span className="text-xs opacity-75 font-mono hidden sm:inline">
-                  ({detected.asset.size})
-                </span>
               </a>
-
               <button
                 type="button"
                 onClick={() => setShowOsDropdown(!showOsDropdown)}
-                className="border-l border-white/20 px-3 py-3.5 text-white hover:bg-white/10 rounded-r-[11px] transition-colors"
-                aria-label="Select alternative OS"
+                className="ml-3 pl-3 border-l border-black/15 text-black/60 hover:text-black"
+                title="Select other operating systems"
               >
                 <ChevronDown className="h-4 w-4" />
               </button>
@@ -96,8 +80,8 @@ export function Hero() {
 
             {/* Alternative OS Dropdown */}
             {showOsDropdown && (
-              <div className="absolute left-0 right-0 sm:left-auto sm:right-auto sm:w-72 mt-2 rounded-xl border border-white/[0.1] bg-[#111315]/95 p-2 shadow-2xl backdrop-blur-xl z-30 text-left">
-                <div className="px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider text-neutral-400 border-b border-white/[0.06]">
+              <div className="absolute left-0 right-0 sm:left-auto sm:right-auto sm:w-72 mt-2 rounded-xl border border-white/[0.1] bg-[#111214]/95 p-2 shadow-2xl backdrop-blur-2xl z-30 text-left">
+                <div className="px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-white/40 border-b border-white/[0.06]">
                   Available Platforms
                 </div>
                 <div className="mt-1 flex flex-col gap-1">
@@ -106,15 +90,15 @@ export function Hero() {
                       key={item.filename}
                       href={item.url}
                       onClick={() => setShowOsDropdown(false)}
-                      className="flex items-center justify-between rounded-lg px-3 py-2 text-xs text-neutral-200 hover:bg-white/[0.06] hover:text-white transition-colors"
+                      className="flex items-center justify-between rounded-md px-3 py-2 text-xs text-white/80 hover:bg-white/[0.08] hover:text-white transition-colors"
                     >
                       <div>
-                        <div className="font-medium">{item.label}</div>
-                        <div className="text-[10px] text-neutral-500 font-mono">
+                        <div className="font-medium text-white">{item.label}</div>
+                        <div className="text-[10px] text-white/40 font-mono">
                           {item.type} • {item.size}
                         </div>
                       </div>
-                      <Download className="h-3.5 w-3.5 text-neutral-400" />
+                      <Download className="h-3.5 w-3.5 text-white/40" />
                     </a>
                   ))}
                 </div>
@@ -122,79 +106,31 @@ export function Hero() {
             )}
           </div>
 
-          <a
-            href="#showcase"
-            className="flex items-center justify-center gap-2 rounded-xl border border-white/[0.1] bg-[#111315]/70 px-6 py-3.5 text-sm font-semibold text-neutral-200 transition-all hover:border-white/[0.2] hover:bg-[#16181b] hover:text-white backdrop-blur-md w-full sm:w-auto"
-          >
-            <span>Explore Live Cockpit</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
-
-        {/* 1-Click Copy CLI Selector */}
-        <div className="mt-8 max-w-xl mx-auto">
-          <div className="rounded-xl border border-white/[0.08] bg-[#0d0f11]/90 shadow-2xl backdrop-blur-xl overflow-hidden text-left">
-            {/* CLI Tab Headers */}
-            <div className="flex border-b border-white/[0.06] bg-[#090b0c] px-3 pt-2 gap-1 overflow-x-auto">
-              {SITE_CONFIG.cliCommands.map((cli) => (
-                <button
-                  key={cli.id}
-                  type="button"
-                  onClick={() => setSelectedCli(cli.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-t-lg transition-all ${
-                    selectedCli === cli.id
-                      ? "bg-[#111315] text-[#38bdf8] border-t border-x border-white/[0.08] font-semibold"
-                      : "text-neutral-400 hover:text-neutral-200"
-                  }`}
-                >
-                  <Terminal className="h-3 w-3" />
-                  <span>{cli.label}</span>
-                </button>
-              ))}
+          {/* Copyable CLI Snippet Button */}
+          <div className="inline-flex h-12 w-full sm:w-auto items-center justify-between gap-3 rounded-md border border-white/10 bg-white/[0.04] px-4 text-xs font-mono text-white/85 transition hover:bg-white/10 hover:text-white">
+            <div className="flex items-center gap-2 truncate">
+              <Terminal className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+              <span className="truncate">{activeCommand}</span>
             </div>
-
-            {/* CLI Command Line */}
-            <div className="flex items-center justify-between p-3.5 bg-[#111315]">
-              <div className="flex items-center gap-2 overflow-x-auto font-mono text-xs text-neutral-200 pr-2">
-                <span className="text-[#10b981] select-none font-bold">$</span>
-                <span className="text-neutral-300 whitespace-nowrap">{activeCommand}</span>
-              </div>
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="shrink-0 flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-[#16181b] px-2.5 py-1 text-xs font-mono text-neutral-300 transition-all hover:border-white/[0.2] hover:bg-[#1c1f24] hover:text-white"
-                title="Copy to clipboard"
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-emerald-400 font-semibold">Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-3.5 w-3.5 text-neutral-400" />
-                    <span>Copy</span>
-                  </>
-                )}
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="ml-2 flex items-center gap-1 text-white/50 hover:text-white shrink-0 p-1"
+              title="Copy install command"
+            >
+              {copied ? (
+                <Check className="h-3.5 w-3.5 text-emerald-400" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+            </button>
           </div>
         </div>
 
-        {/* SRE Trust Badges */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-y-3 gap-x-8 text-xs font-mono text-neutral-400">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-[#10b981]" />
-            <span>Zero SaaS Proxy • Direct Workstation mTLS</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Cpu className="h-4 w-4 text-[#38bdf8]" />
-            <span>Air-Gapped Local Ollama / Groq Triage</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Command className="h-4 w-4 text-neutral-300" />
-            <span>100% Client-Side • MIT Open Source</span>
-          </div>
+        {/* Footnote */}
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-white/50 text-xs">
+          <Monitor className="h-3.5 w-3.5 shrink-0" />
+          <span>Available for macOS (Apple Silicon &amp; Intel), Windows, and Linux. Free &amp; open source (MIT).</span>
         </div>
       </div>
     </section>

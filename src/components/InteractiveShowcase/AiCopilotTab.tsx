@@ -201,3 +201,4 @@ export function AiCopilotTab() {
     </div>
   );
 }
+
