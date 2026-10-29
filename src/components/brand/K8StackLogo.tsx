@@ -42,3 +42,4 @@ export function K8StackLogo({
     </div>
   );
 }
+
