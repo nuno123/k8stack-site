@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Download, Copy, Check, ShieldCheck, Hash } from "lucide-react";
+import { GithubIcon } from "@/components/icons/GithubIcon";
 import { SITE_CONFIG, DownloadAsset } from "@/lib/siteConfig";
 import { useDetectedPlatform } from "@/lib/osDetector";
 
@@ -16,29 +17,35 @@ export function DownloadMatrix() {
   };
 
   return (
-    <section id="downloads" className="py-16 md:py-24 border-t border-white/[0.06] bg-[#090a0b] relative">
+    <section id="downloads" className="py-12 md:py-16 border-t border-white/[0.06] bg-[#090a0b] relative">
       <div className="mx-auto max-w-[1200px] px-6">
         {/* Orca-Style Big CTA Header */}
-        <div className="max-w-3xl mx-auto text-center mb-14">
-          <h2 className="text-4xl sm:text-6xl font-medium tracking-[-0.03em] text-white">
+        <div className="max-w-3xl mx-auto text-center mb-10">
+          <h2 className="text-4xl sm:text-5xl font-medium tracking-[-0.03em] text-white">
             Get K8Stack
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-white/60">
+          <p className="mt-3 text-base sm:text-lg text-white/60">
             Free and open-source under MIT. Compiled for macOS, Windows, and Linux with zero telemetry.
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href={detected.asset.url}
-              className="inline-flex h-12 w-full sm:w-auto items-center justify-center gap-2.5 rounded-md bg-white px-7 text-[15px] font-semibold text-black transition hover:bg-white/90 shadow-sm"
+              className="inline-flex h-11 w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-white px-6 text-[14.5px] font-medium text-black transition hover:bg-white/90"
             >
               <Download className="h-4 w-4" />
               <span>{detected.label}</span>
             </a>
 
-            <div className="inline-flex h-12 w-full sm:w-auto items-center justify-between gap-3 rounded-md border border-white/10 bg-white/[0.04] px-4 text-xs font-mono text-white/85">
-              <span>brew install --cask k8stack</span>
-            </div>
+            <a
+              href={SITE_CONFIG.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-11 w-full sm:w-auto items-center justify-center gap-2 rounded-md border border-white/[0.12] px-5 text-[14.5px] font-medium text-white transition-colors hover:border-white/25 hover:bg-white/[0.04]"
+            >
+              <GithubIcon className="h-4 w-4" />
+              <span>View on GitHub</span>
+            </a>
           </div>
         </div>
 

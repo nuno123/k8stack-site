@@ -79,9 +79,9 @@ export function ShowcaseFrame() {
   const workloadExpanded = activeViewId === "workloads" || activeViewId === "topology";
 
   return (
-    <div id="cockpit" className="mt-14 md:mt-20 text-left">
+    <div id="cockpit" className="mt-10 md:mt-12 text-left">
       {/* Orca-Exact Tablist */}
-      <div className="mb-5 flex justify-center">
+      <div className="mb-4 flex justify-center">
         <div
           role="tablist"
           aria-label="K8Stack capabilities"

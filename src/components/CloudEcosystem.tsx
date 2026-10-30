@@ -14,9 +14,9 @@ export function CloudEcosystem() {
   ];
 
   return (
-    <section className="py-16 md:py-20 border-y border-white/[0.06] bg-[#090a0b]/60">
+    <section className="py-10 md:py-12 border-y border-white/[0.06] bg-[#090a0b]/60">
       <div className="mx-auto max-w-[1200px] px-6">
-        <div className="text-center mb-8">
+        <div className="text-center mb-5">
           <p className="text-xs font-mono uppercase tracking-widest text-white/45">
             Bring your own clusters &amp; local AI runtimes
           </p>

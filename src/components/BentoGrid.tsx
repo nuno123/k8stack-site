@@ -105,10 +105,10 @@ export function BentoGrid() {
   ];
 
   return (
-    <section id="features" className="py-16 md:py-20 relative border-t border-white/[0.06]">
+    <section id="features" className="py-12 md:py-16 relative border-t border-white/[0.06]">
       <div className="mx-auto max-w-[1200px] px-6">
         {/* Section Header (Orca Style) */}
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-8">
           <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white text-balance">
             Sovereign, end to end.
           </h2>

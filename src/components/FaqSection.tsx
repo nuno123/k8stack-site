@@ -39,9 +39,9 @@ export function FaqSection() {
   ];
 
   return (
-    <section id="faq" className="py-16 md:py-20 border-t border-white/[0.06] bg-[#090a0b]">
+    <section id="faq" className="py-12 md:py-16 border-t border-white/[0.06] bg-[#090a0b]">
       <div className="mx-auto max-w-[1200px] px-6">
-        <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white mb-10">
+        <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white mb-7">
           Frequently asked questions
         </h2>
 

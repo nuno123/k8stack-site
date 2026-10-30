@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Download, Terminal, Copy, Check, ChevronDown } from "lucide-react";
+import { Download, ChevronDown } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 import { useDetectedPlatform } from "@/lib/osDetector";
@@ -9,17 +9,8 @@ import { ShowcaseFrame } from "@/components/InteractiveShowcase/ShowcaseFrame";
 
 export function Hero() {
   const detected = useDetectedPlatform();
-  const [copied, setCopied] = useState(false);
   const [showOsDropdown, setShowOsDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const brewCommand = SITE_CONFIG.cliCommands[0].cmd;
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(brewCommand);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   useEffect(() => {
     if (!showOsDropdown) return;
@@ -51,26 +42,26 @@ export function Hero() {
   }, [showOsDropdown]);
 
   return (
-    <section className="relative overflow-x-clip pt-32 pb-20 md:pt-40 md:pb-28">
+    <section className="relative overflow-x-clip pt-24 pb-12 md:pt-28 md:pb-16">
       {/* Orca-Exact Top Radial Spotlight */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[680px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(255,255,255,0.09),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[580px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(255,255,255,0.09),transparent_70%)]"
       />
 
       <div className="mx-auto max-w-[1200px] px-6">
-        {/* Centered Hero Copy (Orca-Exact Typography & Proportions) */}
+        {/* Centered Hero Copy */}
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-balance text-[40px] leading-[1.06] font-semibold tracking-[-0.035em] text-white sm:text-[56px] md:text-[64px]">
+          <h1 className="text-balance text-[38px] leading-[1.06] font-semibold tracking-[-0.035em] text-white sm:text-[52px] md:text-[62px]">
             Operate 100x faster with the sovereign Kubernetes IDE
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-[17px] leading-[1.6] text-white/60 md:text-[18.5px]">
+          <p className="mx-auto mt-4 max-w-2xl text-pretty text-[16.5px] leading-[1.6] text-white/60 md:text-[18px]">
             K8Stack is a high-density desktop cockpit that unifies real-time topology visualization, cluster telemetry, PSS security auditing, and zero-leak local AI incident triage in one native window.
           </p>
 
-          {/* Orca-Exact CTA Row */}
-          <div className="mt-9 flex flex-wrap items-start justify-center gap-3">
+          {/* Compact 2-Button Orca-Exact CTA Row */}
+          <div className="mt-7 flex flex-wrap items-start justify-center gap-3">
             {/* Primary Download Column */}
             <div ref={dropdownRef} className="relative flex flex-col items-center">
               <div className="inline-flex h-11 items-center rounded-md bg-white text-[14.5px] font-medium tracking-[-0.005em] text-black transition-colors hover:bg-white/90">
@@ -101,7 +92,7 @@ export function Hero() {
                 type="button"
                 onClick={() => setShowOsDropdown((prev) => !prev)}
                 aria-expanded={showOsDropdown}
-                className="mt-2.5 inline-flex items-center gap-1 text-xs text-white/50 transition-colors hover:text-white cursor-pointer"
+                className="mt-2 inline-flex items-center gap-1 text-xs text-white/50 transition-colors hover:text-white cursor-pointer"
               >
                 <span>Also for Intel · Windows · Linux</span>
                 <ChevronDown
@@ -152,26 +143,10 @@ export function Hero() {
               <GithubIcon className="h-4 w-4" />
               <span>View on GitHub</span>
             </a>
-
-            {/* Copyable Homebrew / CLI Pill */}
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="inline-flex h-11 items-center gap-2.5 rounded-md border border-white/[0.08] bg-white/[0.025] px-4 text-xs font-mono text-white/75 transition-colors hover:border-white/[0.18] hover:text-white cursor-pointer"
-              title="Copy Homebrew install command"
-            >
-              <Terminal className="h-3.5 w-3.5 text-white/45 shrink-0" />
-              <span>{brewCommand}</span>
-              {copied ? (
-                <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-              ) : (
-                <Copy className="h-3.5 w-3.5 text-white/40 shrink-0" />
-              )}
-            </button>
           </div>
         </div>
 
-        {/* Interactive Desktop Cockpit Showcase directly inside Hero (Orca-Exact) */}
+        {/* Interactive Desktop Cockpit Showcase directly inside Hero */}
         <ShowcaseFrame />
       </div>
     </section>
