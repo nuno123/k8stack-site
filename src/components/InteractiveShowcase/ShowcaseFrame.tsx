@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import {
   ChevronDown,
   ChevronRight,
@@ -42,70 +43,220 @@ interface ShowcaseView {
   alt: string;
 }
 
-export function ShowcaseFrame() {
-  const views: ShowcaseView[] = [
-    {
-      id: "topology",
-      name: "Visualize topologies",
-      screenshotUrl: "/images/app/topology-view@2x.webp",
-      alt: "K8Stack Topology Visualizer",
-    },
-    {
-      id: "overview",
-      name: "Cluster telemetry",
-      screenshotUrl: "/images/app/cluster-overview@2x.webp",
-      alt: "K8Stack Cluster Overview & Resource Usage",
-    },
-    {
-      id: "security",
-      name: "Audit PSS security",
-      screenshotUrl: "/images/app/security-center@2x.webp",
-      alt: "K8Stack Security Center & PSS Compliance",
-    },
-    {
-      id: "workloads",
-      name: "Triage workloads",
-      screenshotUrl: "/images/app/workload-overview@2x.webp",
-      alt: "K8Stack Workloads Overview & Diagnostics",
-    },
-  ];
+const VIEWS: ShowcaseView[] = [
+  {
+    id: "topology",
+    name: "Visualize topologies",
+    screenshotUrl: "/images/app/topology-view@2x.webp",
+    alt: "K8Stack Topology Visualizer",
+  },
+  {
+    id: "overview",
+    name: "Cluster telemetry",
+    screenshotUrl: "/images/app/cluster-overview@2x.webp",
+    alt: "K8Stack Cluster Overview & Resource Usage",
+  },
+  {
+    id: "security",
+    name: "Audit PSS security",
+    screenshotUrl: "/images/app/security-center@2x.webp",
+    alt: "K8Stack Security Center & PSS Compliance",
+  },
+  {
+    id: "workloads",
+    name: "Triage workloads",
+    screenshotUrl: "/images/app/workload-overview@2x.webp",
+    alt: "K8Stack Workloads Overview & Diagnostics",
+  },
+];
 
+const TAB_DURATION_MS = 6500;
+const PILL_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+export function ShowcaseFrame() {
   const [activeViewId, setActiveViewId] = useState<ShowcaseView["id"]>("topology");
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  const activeView = views.find((v) => v.id === activeViewId) || views[0];
+  const tablistRef = useRef<HTMLDivElement | null>(null);
+  const progressBarRef = useRef<HTMLSpanElement | null>(null);
+  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  const clusterExpanded = activeViewId === "overview" || activeViewId === "topology";
-  const workloadExpanded = activeViewId === "workloads" || activeViewId === "topology";
+  const activeModeRef = useRef<ShowcaseView["id"]>("topology");
+  const segmentProgressRef = useRef<number>(0);
+
+  const handleSelectTab = useCallback((id: ShowcaseView["id"]) => {
+    activeModeRef.current = id;
+    segmentProgressRef.current = 0;
+    setActiveViewId(id);
+  }, []);
+
+  useEffect(() => {
+    let rafId = 0;
+    let smoothedScale: number | null = null;
+    let lastTime = performance.now();
+
+    const computeTargetScale = (
+      activeIdx: number,
+      segmentProgress: number,
+      container: HTMLDivElement | null,
+      buttons: Record<string, HTMLButtonElement | null>
+    ): number => {
+      const clampedProgress = Math.max(0, Math.min(1, segmentProgress));
+      const total = VIEWS.length;
+      if (!container) return (activeIdx + clampedProgress) / total;
+
+      const containerRect = container.getBoundingClientRect();
+      if (containerRect.width <= 0) return (activeIdx + clampedProgress) / total;
+
+      let targetPx = 0;
+      let hasButtons = false;
+
+      for (let i = 0; i < total; i += 1) {
+        const view = VIEWS[i];
+        const btn = buttons[view.id];
+        if (!btn) continue;
+        hasButtons = true;
+
+        const btnRect = btn.getBoundingClientRect();
+        const btnLeft = btnRect.left - containerRect.left;
+        const btnRight =
+          i === total - 1 ? containerRect.width : btnLeft + btnRect.width;
+
+        if (i < activeIdx) {
+          targetPx = btnRight;
+        } else if (i === activeIdx) {
+          let startPx = i === 0 ? 0 : btnLeft;
+          if (i > 0) {
+            const prevBtn = buttons[VIEWS[i - 1].id];
+            if (prevBtn) {
+              const prevRect = prevBtn.getBoundingClientRect();
+              startPx = prevRect.left - containerRect.left + prevRect.width;
+            }
+          }
+          targetPx = startPx + (btnRight - startPx) * clampedProgress;
+          break;
+        }
+      }
+
+      return hasButtons
+        ? Math.max(0, Math.min(1, targetPx / containerRect.width))
+        : (activeIdx + clampedProgress) / total;
+    };
+
+    const tick = (now: number) => {
+      const dt = now - lastTime;
+      lastTime = now;
+
+      if (!lightboxOpen) {
+        segmentProgressRef.current += dt / TAB_DURATION_MS;
+        if (segmentProgressRef.current >= 1) {
+          segmentProgressRef.current = 0;
+          const currentIdx = VIEWS.findIndex(
+            (v) => v.id === activeModeRef.current
+          );
+          const nextIdx = (currentIdx + 1) % VIEWS.length;
+          const nextId = VIEWS[nextIdx].id;
+          activeModeRef.current = nextId;
+          setActiveViewId(nextId);
+        }
+      }
+
+      const barEl = progressBarRef.current;
+      if (barEl) {
+        const activeIdx = Math.max(
+          0,
+          VIEWS.findIndex((v) => v.id === activeModeRef.current)
+        );
+        const targetScale = computeTargetScale(
+          activeIdx,
+          segmentProgressRef.current,
+          tablistRef.current,
+          buttonRefs.current
+        );
+
+        if (smoothedScale === null || targetScale < smoothedScale - 0.25) {
+          smoothedScale = targetScale;
+        } else {
+          smoothedScale +=
+            (targetScale - smoothedScale) * (1 - Math.exp(-dt / 60));
+          if (Math.abs(targetScale - smoothedScale) < 0.001) {
+            smoothedScale = targetScale;
+          }
+        }
+
+        barEl.style.transform = `scaleX(${smoothedScale})`;
+      }
+
+      rafId = window.requestAnimationFrame(tick);
+    };
+
+    rafId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(rafId);
+  }, [lightboxOpen]);
+
+  const activeView = VIEWS.find((v) => v.id === activeViewId) || VIEWS[0];
+
+  const clusterExpanded =
+    activeViewId === "overview" || activeViewId === "topology";
+  const workloadExpanded =
+    activeViewId === "workloads" || activeViewId === "topology";
 
   return (
     <div id="cockpit" className="mt-10 md:mt-12 text-left">
-      {/* Orca-Exact Tablist */}
-      <div className="mb-4 flex justify-center">
-        <div
-          role="tablist"
-          aria-label="K8Stack capabilities"
-          className="inline-flex flex-wrap justify-center gap-1 rounded-lg border border-white/[0.07] bg-white/[0.025] p-1"
-        >
-          {views.map((v) => {
-            const isActive = activeViewId === v.id;
-            return (
-              <button
-                key={v.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActiveViewId(v.id)}
-                className={`cursor-pointer rounded-md px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
-                  isActive
-                    ? "bg-white/[0.09] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                    : "text-white/55 hover:text-white/85"
-                }`}
-              >
-                {v.name}
-              </button>
-            );
-          })}
+      {/* Orca-Exact Tablist with Animated Pill & Continuous Bottom Progress Bar */}
+      <div className="mb-4 flex justify-center px-1">
+        <div className="max-w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div
+            ref={tablistRef}
+            role="tablist"
+            aria-label="K8Stack feature showcase"
+            className="relative inline-flex min-w-max items-center gap-0.5 overflow-hidden rounded-lg border border-white/[0.07] bg-white/[0.025] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+          >
+            {VIEWS.map((v) => {
+              const isActive = activeViewId === v.id;
+              return (
+                <button
+                  key={v.id}
+                  ref={(el) => {
+                    buttonRefs.current[v.id] = el;
+                  }}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => handleSelectTab(v.id)}
+                  className={`relative inline-flex h-8 shrink-0 items-center overflow-hidden rounded-md px-3.5 text-[13px] font-medium tracking-[-0.01em] transition-colors duration-200 select-none ${
+                    isActive
+                      ? "cursor-default text-white/88"
+                      : "text-white/42 hover:bg-white/[0.04] hover:text-white/60 cursor-pointer"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="hero-feature-pill-indicator"
+                      className="absolute inset-0 rounded-md bg-white/[0.09] shadow-[0_1px_2px_rgba(0,0,0,0.28)]"
+                      transition={{ duration: 0.32, ease: PILL_EASE }}
+                    />
+                  )}
+                  <span className="relative z-10 whitespace-nowrap">
+                    {v.name}
+                  </span>
+                </button>
+              );
+            })}
+
+            {/* Continuous Bottom Loader Track (Orca 1:1) */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px]"
+            >
+              <span className="absolute inset-0 bg-white/10" />
+              <span
+                ref={progressBarRef}
+                className="absolute inset-0 origin-left bg-white/65 will-change-transform"
+                style={{ transform: "scaleX(0)" }}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -160,7 +311,7 @@ export function ShowcaseFrame() {
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
-                  onClick={() => setActiveViewId("workloads")}
+                  onClick={() => handleSelectTab("workloads")}
                   className="inline-flex items-center gap-1.5 rounded-md bg-[#7c3aed] px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm hover:bg-[#6d28d9] transition-colors"
                 >
                   <Bot className="h-3.5 w-3.5" />
@@ -208,7 +359,7 @@ export function ShowcaseFrame() {
                   <div>
                     <button
                       type="button"
-                      onClick={() => setActiveViewId("overview")}
+                      onClick={() => handleSelectTab("overview")}
                       className="flex w-full items-center justify-between rounded px-2 py-1.5 text-[11px] font-bold tracking-wide text-white/85 hover:bg-white/[0.04]"
                     >
                       <span className="flex items-center gap-2">
@@ -226,7 +377,7 @@ export function ShowcaseFrame() {
                       <div className="mt-0.5 ml-2 space-y-0.5 border-l border-white/[0.06] pl-2 text-[11px]">
                         <button
                           type="button"
-                          onClick={() => setActiveViewId("overview")}
+                          onClick={() => handleSelectTab("overview")}
                           className={`flex w-full items-center justify-between rounded px-2 py-1 transition-colors ${
                             activeViewId === "overview"
                               ? "bg-[#3b82f6]/15 text-[#38bdf8] font-medium"
@@ -289,7 +440,7 @@ export function ShowcaseFrame() {
                   <div className="pt-1">
                     <button
                       type="button"
-                      onClick={() => setActiveViewId("workloads")}
+                      onClick={() => handleSelectTab("workloads")}
                       className="flex w-full items-center justify-between rounded px-2 py-1.5 text-[11px] font-bold tracking-wide text-white/85 hover:bg-white/[0.04]"
                     >
                       <span className="flex items-center gap-2">
@@ -307,7 +458,7 @@ export function ShowcaseFrame() {
                       <div className="mt-0.5 ml-2 space-y-0.5 border-l border-white/[0.06] pl-2 text-[11px]">
                         <button
                           type="button"
-                          onClick={() => setActiveViewId("workloads")}
+                          onClick={() => handleSelectTab("workloads")}
                           className={`flex w-full items-center justify-between rounded px-2 py-1 transition-colors ${
                             activeViewId === "workloads"
                               ? "bg-emerald-500/15 text-emerald-400 font-medium"
@@ -318,7 +469,7 @@ export function ShowcaseFrame() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => setActiveViewId("topology")}
+                          onClick={() => handleSelectTab("topology")}
                           className={`flex w-full items-center justify-between rounded px-2 py-1 transition-colors ${
                             activeViewId === "topology"
                               ? "bg-emerald-500/15 text-emerald-400 font-medium"
@@ -384,7 +535,7 @@ export function ShowcaseFrame() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => setActiveViewId("security")}
+                      onClick={() => handleSelectTab("security")}
                       className={`mt-0.5 flex w-full items-center gap-2 rounded px-2.5 py-1.5 text-[11px] transition-colors ${
                         activeViewId === "security"
                           ? "bg-rose-500/15 text-rose-300 font-medium border border-rose-500/25"
@@ -396,7 +547,7 @@ export function ShowcaseFrame() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => setActiveViewId("topology")}
+                      onClick={() => handleSelectTab("topology")}
                       className="flex w-full items-center gap-2 rounded px-2.5 py-1.5 text-[11px] text-white/65 hover:text-white hover:bg-white/[0.04]"
                     >
                       <GitBranch className="h-3.5 w-3.5 text-white/50" />
