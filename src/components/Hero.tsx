@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Download, Terminal, Copy, Check, ChevronDown } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { SITE_CONFIG } from "@/lib/siteConfig";
@@ -11,6 +11,7 @@ export function Hero() {
   const detected = useDetectedPlatform();
   const [copied, setCopied] = useState(false);
   const [showOsDropdown, setShowOsDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const brewCommand = SITE_CONFIG.cliCommands[0].cmd;
 
@@ -19,6 +20,35 @@ export function Hero() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  useEffect(() => {
+    if (!showOsDropdown) return;
+
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowOsDropdown(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowOsDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showOsDropdown]);
 
   return (
     <section className="relative overflow-x-clip pt-32 pb-20 md:pt-40 md:pb-28">
@@ -42,26 +72,50 @@ export function Hero() {
           {/* Orca-Exact CTA Row */}
           <div className="mt-9 flex flex-wrap items-start justify-center gap-3">
             {/* Primary Download Column */}
-            <div className="relative flex flex-col items-center">
-              <a
-                href={detected.asset.url}
-                className="inline-flex items-center justify-center font-medium tracking-[-0.005em] bg-white text-black hover:bg-white/90 rounded-md transition-colors gap-2 cursor-pointer whitespace-nowrap h-11 px-5 text-[14.5px]"
-              >
-                <Download className="h-4 w-4 shrink-0" />
-                <span>{detected.label}</span>
-              </a>
+            <div ref={dropdownRef} className="relative flex flex-col items-center">
+              <div className="inline-flex h-11 items-center rounded-md bg-white text-[14.5px] font-medium tracking-[-0.005em] text-black transition-colors hover:bg-white/90">
+                <a
+                  href={detected.asset.url}
+                  className="inline-flex h-full items-center gap-2 pl-5 pr-3 cursor-pointer whitespace-nowrap"
+                >
+                  <Download className="h-4 w-4 shrink-0" />
+                  <span>{detected.label}</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setShowOsDropdown((prev) => !prev)}
+                  aria-expanded={showOsDropdown}
+                  aria-haspopup="menu"
+                  className="inline-flex h-full items-center border-l border-black/15 px-2.5 text-black/65 hover:text-black cursor-pointer"
+                  title="Select platform version"
+                >
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 transition-transform duration-150 ${
+                      showOsDropdown ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              </div>
 
               <button
                 type="button"
-                onClick={() => setShowOsDropdown(!showOsDropdown)}
+                onClick={() => setShowOsDropdown((prev) => !prev)}
+                aria-expanded={showOsDropdown}
                 className="mt-2.5 inline-flex items-center gap-1 text-xs text-white/50 transition-colors hover:text-white cursor-pointer"
               >
                 <span>Also for Intel · Windows · Linux</span>
-                <ChevronDown className="h-3 w-3 opacity-60" />
+                <ChevronDown
+                  className={`h-3 w-3 opacity-60 transition-transform duration-150 ${
+                    showOsDropdown ? "rotate-180" : ""
+                  }`}
+                />
               </button>
 
               {showOsDropdown && (
-                <div className="absolute top-12 left-1/2 -translate-x-1/2 w-72 mt-1 rounded-xl border border-white/[0.1] bg-[#111214]/95 p-2 shadow-2xl backdrop-blur-2xl z-30 text-left">
+                <div
+                  role="menu"
+                  className="absolute top-12 left-1/2 -translate-x-1/2 w-72 mt-1 rounded-xl border border-white/[0.1] bg-[#111214]/95 p-2 shadow-2xl backdrop-blur-2xl z-30 text-left"
+                >
                   <div className="px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-white/40 border-b border-white/[0.06]">
                     Available Platforms
                   </div>
@@ -70,6 +124,7 @@ export function Hero() {
                       <a
                         key={item.filename}
                         href={item.url}
+                        role="menuitem"
                         onClick={() => setShowOsDropdown(false)}
                         className="flex items-center justify-between rounded-md px-3 py-2 text-xs text-white/80 hover:bg-white/[0.08] hover:text-white transition-colors"
                       >
