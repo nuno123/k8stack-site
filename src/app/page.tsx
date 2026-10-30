@@ -1,8 +1,6 @@
 import React from "react";
-import { StagingBanner } from "@/components/StagingBanner";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { ShowcaseFrame } from "@/components/InteractiveShowcase/ShowcaseFrame";
 import { CloudEcosystem } from "@/components/CloudEcosystem";
 import { BentoGrid } from "@/components/BentoGrid";
 import { ArchitectureSection } from "@/components/ArchitectureSection";
@@ -13,19 +11,13 @@ import { Footer } from "@/components/Footer";
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen bg-[#090a0b] text-[#ededed]">
-      {/* Privacy / Staging Shield Banner */}
-      <StagingBanner />
-
-      {/* Orca-Style Fixed Blur Navbar */}
+    <div className="relative min-h-screen bg-[#0a0a0a] text-[#ededed]">
+      {/* Orca-Exact Fixed Blur Navbar */}
       <Header />
 
       <main>
-        {/* Hero Section */}
+        {/* Hero Section + Integrated Desktop Cockpit Showcase */}
         <Hero />
-
-        {/* Desktop Cockpit App Window (Showcase) */}
-        <ShowcaseFrame />
 
         {/* Bring your own clusters / AI runtimes */}
         <CloudEcosystem />

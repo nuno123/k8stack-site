@@ -1,137 +1,123 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Download,
-  Terminal,
-  Copy,
-  Check,
-  ChevronDown,
-  Monitor,
-  Sparkles,
-} from "lucide-react";
+import { Download, Terminal, Copy, Check, ChevronDown } from "lucide-react";
+import { GithubIcon } from "@/components/icons/GithubIcon";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 import { useDetectedPlatform } from "@/lib/osDetector";
+import { ShowcaseFrame } from "@/components/InteractiveShowcase/ShowcaseFrame";
 
 export function Hero() {
   const detected = useDetectedPlatform();
-  const [selectedCli, setSelectedCli] = useState<string>("brew");
   const [copied, setCopied] = useState(false);
   const [showOsDropdown, setShowOsDropdown] = useState(false);
 
-  const activeCommand =
-    SITE_CONFIG.cliCommands.find((c) => c.id === selectedCli)?.cmd ||
-    SITE_CONFIG.cliCommands[0].cmd;
+  const brewCommand = SITE_CONFIG.cliCommands[0].cmd;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(activeCommand);
+    navigator.clipboard.writeText(brewCommand);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <section className="relative overflow-x-clip pt-28 md:pt-36 pb-16 text-center">
-      {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[450px] w-[750px] rounded-full bg-gradient-to-b from-[#326ce5]/15 via-white/[0.03] to-transparent blur-[140px] opacity-60" />
+    <section className="relative overflow-x-clip pt-32 pb-20 md:pt-40 md:pb-28">
+      {/* Orca-Exact Top Radial Spotlight */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[680px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(255,255,255,0.09),transparent_70%)]"
+      />
 
-      <div className="mx-auto max-w-[1200px] px-6 flex flex-col items-center">
-        {/* Release Pill Badge */}
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1 text-[13px] text-white/70 backdrop-blur-md">
-          <span className="flex h-1.5 w-1.5 rounded-full bg-[#10b981]" />
-          <span>K8Stack v{SITE_CONFIG.version} is live</span>
-          <span className="text-white/30">•</span>
-          <span className="text-[#38bdf8] flex items-center gap-1 font-medium">
-            <Sparkles className="h-3 w-3" />
-            Zero-Leak Local AI SRE
-          </span>
-        </div>
+      <div className="mx-auto max-w-[1200px] px-6">
+        {/* Centered Hero Copy (Orca-Exact Typography & Proportions) */}
+        <div className="mx-auto max-w-3xl text-center">
+          <h1 className="text-balance text-[40px] leading-[1.06] font-semibold tracking-[-0.035em] text-white sm:text-[56px] md:text-[64px]">
+            Operate 100x faster with the sovereign Kubernetes IDE
+          </h1>
 
-        {/* H1 Heading */}
-        <h1 className="max-w-4xl text-balance font-medium tracking-[-0.03em] text-white text-4xl sm:text-6xl md:text-7xl leading-[1.08]">
-          Operate 100x faster with the sovereign Kubernetes IDE
-        </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-[17px] leading-[1.6] text-white/60 md:text-[18.5px]">
+            K8Stack is a high-density desktop cockpit that unifies real-time topology visualization, cluster telemetry, PSS security auditing, and zero-leak local AI incident triage in one native window.
+          </p>
 
-        {/* Subtitle */}
-        <p className="mt-6 max-w-[48rem] text-balance text-white/60 text-base sm:text-lg md:text-xl leading-relaxed">
-          Triage incidents in seconds with zero-leak local AI, explore interactive topologies, stream multi-pod telemetry, and manage multi-cloud clusters directly from your workstation.
-        </p>
-
-        {/* Action Row */}
-        <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xl">
-          {/* Primary White Download Button */}
-          <div className="relative w-full sm:w-auto">
-            <div className="inline-flex h-12 w-full sm:w-auto items-center justify-between rounded-md bg-white px-5 text-[15px] font-semibold text-black transition hover:bg-white/90 shadow-sm cursor-pointer">
+          {/* Orca-Exact CTA Row */}
+          <div className="mt-9 flex flex-wrap items-start justify-center gap-3">
+            {/* Primary Download Column */}
+            <div className="relative flex flex-col items-center">
               <a
                 href={detected.asset.url}
-                className="flex items-center gap-2.5 whitespace-nowrap"
+                className="inline-flex items-center justify-center font-medium tracking-[-0.005em] bg-white text-black hover:bg-white/90 rounded-md transition-colors gap-2 cursor-pointer whitespace-nowrap h-11 px-5 text-[14.5px]"
               >
-                <Download className="h-4 w-4" />
+                <Download className="h-4 w-4 shrink-0" />
                 <span>{detected.label}</span>
               </a>
+
               <button
                 type="button"
                 onClick={() => setShowOsDropdown(!showOsDropdown)}
-                className="ml-3 pl-3 border-l border-black/15 text-black/60 hover:text-black"
-                title="Select other operating systems"
+                className="mt-2.5 inline-flex items-center gap-1 text-xs text-white/50 transition-colors hover:text-white cursor-pointer"
               >
-                <ChevronDown className="h-4 w-4" />
+                <span>Also for Intel · Windows · Linux</span>
+                <ChevronDown className="h-3 w-3 opacity-60" />
               </button>
-            </div>
 
-            {/* Alternative OS Dropdown */}
-            {showOsDropdown && (
-              <div className="absolute left-0 right-0 sm:left-auto sm:right-auto sm:w-72 mt-2 rounded-xl border border-white/[0.1] bg-[#111214]/95 p-2 shadow-2xl backdrop-blur-2xl z-30 text-left">
-                <div className="px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-white/40 border-b border-white/[0.06]">
-                  Available Platforms
-                </div>
-                <div className="mt-1 flex flex-col gap-1">
-                  {SITE_CONFIG.downloads.map((item) => (
-                    <a
-                      key={item.filename}
-                      href={item.url}
-                      onClick={() => setShowOsDropdown(false)}
-                      className="flex items-center justify-between rounded-md px-3 py-2 text-xs text-white/80 hover:bg-white/[0.08] hover:text-white transition-colors"
-                    >
-                      <div>
-                        <div className="font-medium text-white">{item.label}</div>
-                        <div className="text-[10px] text-white/40 font-mono">
-                          {item.type} • {item.size}
+              {showOsDropdown && (
+                <div className="absolute top-12 left-1/2 -translate-x-1/2 w-72 mt-1 rounded-xl border border-white/[0.1] bg-[#111214]/95 p-2 shadow-2xl backdrop-blur-2xl z-30 text-left">
+                  <div className="px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-white/40 border-b border-white/[0.06]">
+                    Available Platforms
+                  </div>
+                  <div className="mt-1 flex flex-col gap-1">
+                    {SITE_CONFIG.downloads.map((item) => (
+                      <a
+                        key={item.filename}
+                        href={item.url}
+                        onClick={() => setShowOsDropdown(false)}
+                        className="flex items-center justify-between rounded-md px-3 py-2 text-xs text-white/80 hover:bg-white/[0.08] hover:text-white transition-colors"
+                      >
+                        <div>
+                          <div className="font-medium text-white">{item.label}</div>
+                          <div className="text-[10px] text-white/40 font-mono">
+                            {item.type} • {item.size}
+                          </div>
                         </div>
-                      </div>
-                      <Download className="h-3.5 w-3.5 text-white/40" />
-                    </a>
-                  ))}
+                        <Download className="h-3.5 w-3.5 text-white/40" />
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-
-          {/* Copyable CLI Snippet Button */}
-          <div className="inline-flex h-12 w-full sm:w-auto items-center justify-between gap-3 rounded-md border border-white/10 bg-white/[0.04] px-4 text-xs font-mono text-white/85 transition hover:bg-white/10 hover:text-white">
-            <div className="flex items-center gap-2 truncate">
-              <Terminal className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-              <span className="truncate">{activeCommand}</span>
+              )}
             </div>
+
+            {/* Secondary GitHub Button (Orca-Exact) */}
+            <a
+              href={SITE_CONFIG.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-11 items-center gap-2 rounded-md border border-white/[0.12] px-5 text-[14.5px] font-medium text-white transition-colors hover:border-white/25 hover:bg-white/[0.04]"
+            >
+              <GithubIcon className="h-4 w-4" />
+              <span>View on GitHub</span>
+            </a>
+
+            {/* Copyable Homebrew / CLI Pill */}
             <button
               type="button"
               onClick={handleCopy}
-              className="ml-2 flex items-center gap-1 text-white/50 hover:text-white shrink-0 p-1"
-              title="Copy install command"
+              className="inline-flex h-11 items-center gap-2.5 rounded-md border border-white/[0.08] bg-white/[0.025] px-4 text-xs font-mono text-white/75 transition-colors hover:border-white/[0.18] hover:text-white cursor-pointer"
+              title="Copy Homebrew install command"
             >
+              <Terminal className="h-3.5 w-3.5 text-white/45 shrink-0" />
+              <span>{brewCommand}</span>
               {copied ? (
-                <Check className="h-3.5 w-3.5 text-emerald-400" />
+                <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy className="h-3.5 w-3.5 text-white/40 shrink-0" />
               )}
             </button>
           </div>
         </div>
 
-        {/* Footnote */}
-        <div className="mt-4 flex items-center justify-center gap-1.5 text-white/50 text-xs">
-          <Monitor className="h-3.5 w-3.5 shrink-0" />
-          <span>Available for macOS (Apple Silicon &amp; Intel), Windows, and Linux. Free &amp; open source (MIT).</span>
-        </div>
+        {/* Interactive Desktop Cockpit Showcase directly inside Hero (Orca-Exact) */}
+        <ShowcaseFrame />
       </div>
     </section>
   );
